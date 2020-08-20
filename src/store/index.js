@@ -144,7 +144,7 @@ export default new Vuex.Store({
           params: {
             api_key: state.api_key
           }
-        }).catch(() => {throw new Error('Unable to get a token5.')});
+        }).catch(() => {});
         commit('setMovies', response.data);
         commit('setMovieError', 0);
       }catch(error) {
@@ -169,20 +169,6 @@ export default new Vuex.Store({
         commit('setMovies', []);
       }
     },
-
-    // async getMovies({state, commit}, query){
-    //   try {
-    //     let response = await axios.get(`${state.apiUrl.search}`, {
-    //       params: {
-    //         api_key: state.api_key,
-    //         query: query
-    //       }
-    //     });
-    //     commit('setMovies', response.data.results);
-    //   } catch(error){
-    //     commit('setMovies', []);
-    //   }
-    // },
 
     async getMovieByTitle({state, commit}, query){
       try {
@@ -213,20 +199,10 @@ export default new Vuex.Store({
         commit('setPopular', []);
       }
     },
-    /*
-    async getGenres({state, commit}){
-      try {
-        let response = await axios.get(`${state.apiUrl.genres}`, {
-          params: {
-            api_key: state.api_key,
-          }
-        });
-        commit('setGenres', response.data.genres);
-      } catch(error){
-        commit('setGenres', []);
-      }
+
+    clearMovieError({commit}){
+      commit('setMovieError', 0);
     }
-    */
   },
 
 

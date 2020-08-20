@@ -1,23 +1,5 @@
 <template>
-    <v-container class="details">
-        <div>
-            <h1>Movie details</h1>
-        </div>
-        <v-form v-on:submit.prevent >
-            <v-row>
-                <v-spacer></v-spacer>
-                <v-col :cols="5">
-                    <v-text-field label="Movie title" autocomplete="off" v-model="title" @keydown.enter="searchMovie(title)" dark>
-                    </v-text-field>
-                </v-col>
-                <v-col :cols="3">
-                    <v-btn @click="searchMovie(title)" block>
-                        Search
-                    </v-btn>
-                </v-col>
-                <v-spacer></v-spacer>
-            </v-row>
-        </v-form>
+    <v-container>
         <v-row>
             <v-spacer></v-spacer>
             <v-col :cols="9">
@@ -36,7 +18,7 @@
                                 <h5>Popularity: {{movie.popularity}}</h5>
                                 <div class="my-2">
                                     <h5>Release date: {{movie.release_date}}</h5>
-                                    <div v-if="movie.production_countries">
+                                    <div v-if="movie.production_countries && movie.production_countries.length!==0">
                                         <h5>Production:
                                         </h5>
                                         <span v-for="(c, i) in movie.production_countries" :key="i"> 
@@ -91,41 +73,13 @@ export default {
     name: 'MovieDetails',
     data(){
         return {
-            title: '',
             adultIcon: mdiAccountCancel
         }
     },
-    //refresh components while changing movie
-    beforeRouteUpdate(to, from, next) {
-        if(this.$route.params.id)
-            this.$store.dispatch('getMovieById', to.params.id);
-        next();
-    },
-
     methods: {
-        async searchMovie(){
-            if(this.title!==''){
-                try{
-                    await this.$store.dispatch('getMovieByTitle', this.title)
-                        .then(() => {
-                            this.$router.push({ path: `/movie-details/${this.$store.state.id}` })
-                        })
-                        //avoid recurring nacigation
-                        .catch(()=>{});
-                }catch(error){
-                    //this.error=1;
-                    //throw new Error(error)
-                }
-                this.title='';
-            }
-        },
         goToImdb(path){
             window.location.href = 'https://www.imdb.com/title/' + path;
         }
-    },
-    mounted() {
-        if(this.$route.params.id)
-            this.$store.dispatch('getMovieById', this.$route.params.id);
     },
     computed: {
         error(){
@@ -134,19 +88,11 @@ export default {
         movie() {
             if(this.$route.params.id){
                 return this.$store.state.movies;
-            }else
+            }else{
                 //return this.$store.state.movies[0];
                 return null;
+            }
         }
     }
 }
 </script>
-
-<style scoped>
-.details {
-    color: white;
-}
-.darkCard {
-    opacity: 90%;
-}
-</style>

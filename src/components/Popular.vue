@@ -7,12 +7,12 @@
                     <v-flex xs12 sm6 md6 lg4 v-for="(p, i) in q" :key="i">
                         <v-card class="pa-5 ma-5" height="430" dark>
                             <v-responsive>
-                                <router-link :to="'/movie-details/' + p.id">
+                                <router-link :to="'/movie/' + p.id">
                                     <v-img v-if="p.poster_path" height="300" contain :src="posterPath + p.poster_path"></v-img>
                                 </router-link>
                             </v-responsive>
                             <v-card-text class="text-justify">
-                                <router-link :to="'/movie-details/' + p.id">
+                                <router-link :to="'/movie/' + p.id">
                                     <div class="title">
                                         {{p.title}}
                                     </div>

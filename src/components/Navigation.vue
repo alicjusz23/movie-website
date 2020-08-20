@@ -28,7 +28,7 @@
             <div class="hidden-sm-and-down">
                 <v-icon size="60" class="ma-2">{{filmIcon}}</v-icon>
                 <v-btn class="ma-2" outlined to="/">Home</v-btn>
-                <v-btn class="ma-2" outlined to="/movie-details">Find movie</v-btn>
+                <v-btn class="ma-2" outlined @click="goToMovieRoute()">Find movie</v-btn>
                 <v-menu offset-y dark >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn class="ma-2" outlined v-bind="attrs"
@@ -77,9 +77,9 @@ export default {
             drawer: false,
             items: [
                 {title: 'Home', url: '/', group: false},
-                {title: 'Find Movie', url: '/movie-details', group: false},
+                {title: 'Find Movie', url: '/movie', group: false},
                 {title: 'Find By Genre', url: '/', group: true},
-                {title: 'Join', url: '/join', group: false},
+                //{title: 'Join', url: '/join', group: false},
                 {title: 'About', url: '/about', group: false}
             ]
         }
@@ -98,12 +98,26 @@ export default {
     methods: {
         goToGenre(id){
             //this.$router.push("/genre/" + id);
-            this.$router.push({ name: 'GenreMovies', params: { id: id }});
+            this.$router.push({ name: 'Genre', params: { id: id }});
         },
         goToNavItem(item){
+            if(item!=='/movie'){
             this.$router.push(item)
                 //avoid redundant navigation error
-                .catch(()=>{});
+                .catch(()=>{
+                    location.reload();
+                });
+            }else{
+                this.goToMovieRoute();
+            }
+        },
+        goToMovieRoute(){
+            this.$store.dispatch('clearMovieError');
+            this.$router.push('/movie')
+                //avoid redundant navigation error
+                .catch(()=>{
+                    location.reload();
+                });
         }
     }
 }

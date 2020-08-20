@@ -1,5 +1,5 @@
 <template>
-    <div class="genreMovies">
+    <v-container>
         <h1>{{genreName}} movies</h1>
         <template>
             <div class="text-center my-2">
@@ -7,6 +7,7 @@
                 </v-pagination>
             </div>
         </template>
+        <div>
         <v-simple-table dark class="table">
             <thead>
                 <th>Poster</th>
@@ -29,6 +30,7 @@
                 </tr>
             </tbody>
         </v-simple-table>
+        </div>
         <template>
             <div class="text-center">
                 <!-- color="#555" -->
@@ -36,7 +38,7 @@
                 </v-pagination>
             </div>
         </template>
-    </div>
+    </v-container>
 </template>
 
 <script>
@@ -72,20 +74,8 @@ export default {
     },
     methods: {
         goToMovieDetails(movieId){
-            this.$router.push('/movie-details/' + movieId);
+            this.$router.push('/movie/' + movieId);
         }
     }
 }
 </script>
-
-<style scoped>
-.table {
-    opacity: 90%;
-}
-.genreMovies {
-    color: white;
-}
-.movieLine {
-    cursor: pointer;
-}
-</style>
